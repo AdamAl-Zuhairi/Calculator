@@ -9,12 +9,12 @@ import java.util.Map;
 public class Window extends JFrame implements ActionListener {
     static JFrame frame;
     static JTextField textField;
-    private Map<String, Operand> operations;
+    private Map<String, Op> operations;
     String s0,s1,s2;
 
     Window() {
         s0 = s1 = s2 = "";
-        operations = new HashMap<String, Operand>();
+        operations = new HashMap<String, Op>();
         operations.put("+", new Add());
         operations.put("-", new Sub());
         operations.put("*", new Mul());
@@ -22,14 +22,23 @@ public class Window extends JFrame implements ActionListener {
         operations.put("^", new Pow());
         operations.put("log", new Log());
         operations.put("ln", new Ln());
+        operations.put("sqrt", new Sqrt());
     }
     
     public double calculate (double operand1, String operator, double operand2){
-        Operand currentOp = operations.get(operator);
+        Op currentOp = operations.get(operator);
         if(currentOp == null){
             throw new IllegalArgumentException("Invalid Operator");
         }
-        return currentOp.execute(operand1, operand2);
+        if (currentOp instanceof SingleOperand) {
+            return ((SingleOperand)currentOp).execute(operand1);
+        }
+        if(currentOp instanceof MultipleOperand) {
+            return ((MultipleOperand)currentOp).execute(operand1, operand2);
+        }
+        else{
+            throw new IllegalArgumentException("Invalid Operand");
+        }
     }
 
     public void CreateCalculator() {
@@ -100,17 +109,40 @@ public class Window extends JFrame implements ActionListener {
         else if (operations.containsKey(s)) {
             s1 = s;
             textField.setText(s0 + s1);
+            Op currentOpe = operations.get(s);
+
+            //funkar nu men man måste skriva in siffra sen operation, finslipa sen
+            //gör mer på design så man lär sig också
+            if (currentOpe instanceof SingleOperand) {
+                if (!s0.equals("")) {
+                    double op1 = Double.parseDouble(s0);
+                    double res = ((SingleOperand) currentOpe).execute(op1);
+                    textField.setText(Double.toString(res));
+                    s0 = Double.toString(res);
+                    s1 = s2 = "";  // Reset after calculation
+                }
         }
+    }
         else if (s.equals("Exit")) {
             System.exit(0);
         }
         else if (s.charAt(0) == '=') {
-            if (!s0.equals("") && !s2.equals("")) {
+            if (!s0.equals("")) {
                 double op1 = Double.parseDouble(s0);
                 Double op2 = s2.isEmpty() ? null : Double.parseDouble(s2);
-                double res = calculate(op1,s1,op2);
-                textField.setText(Double.toString(res));
+                double res;
+                Op current = operations.get(s1);
+                if(current instanceof SingleOperand){
+                    res = ((SingleOperand)current).execute(op1);
+                }
+                else if (current instanceof MultipleOperand && op2 != null){
+                    res = ((MultipleOperand)current).execute(op1, op2);
+                }
+                else{
+                    throw new IllegalArgumentException("Operation not supported");
+                }
 
+                textField.setText(Double.toString(res));
                 s0 = Double.toString(res);
                 s1 = s2 = "";
             }
