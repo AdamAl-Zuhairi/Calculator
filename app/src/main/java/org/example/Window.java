@@ -1,5 +1,9 @@
 package org.example;
 
+//TODO: Fixa färger och mer på design, ksk ta bort det tomma hörnet
+//TODO: Fixa felmeddelanden, gör en egen klass bara för felmeddelanden (som XL projektet)
+//TODO: Börja nytt projekt lol, den här var inte så svår
+
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
@@ -63,6 +67,7 @@ public class Window extends JFrame implements ActionListener {
         for (int i = 0; i <= 9; i++) {
             numButtons[i] = new JButton(String.valueOf(i));
             numButtons[i].addActionListener(c);
+            numButtons[i].setBackground(Color.magenta);
         }
 
         JButton[] opButtons = new JButton[operations.size()];
@@ -70,6 +75,7 @@ public class Window extends JFrame implements ActionListener {
         for (String o : operations.keySet()) {
             opButtons[index] = new JButton(o);
             opButtons[index].addActionListener(c);
+            opButtons[index].setBackground(Color.PINK);
             index++;
         }
 
@@ -86,6 +92,11 @@ public class Window extends JFrame implements ActionListener {
         beq.addActionListener(c);
         be.addActionListener(c);
         exit.addActionListener(c);
+
+        be.setBackground(Color.pink);
+        pi.setBackground(Color.pink);
+        e.setBackground(Color.pink);
+        beq1.setBackground(Color.green);
 
         buttonPanel.add(numButtons[7]);
         buttonPanel.add(numButtons[8]);
@@ -128,8 +139,9 @@ public class Window extends JFrame implements ActionListener {
         frame.add(extraPanel, BorderLayout.EAST);
         frame.add(controlPanel, BorderLayout.SOUTH);
         frame.setSize(500, 400); // Adjust size as needed
+        frame.setResizable(false);
         frame.setVisible(true);
-        p.setBackground(Color.DARK_GRAY);
+        frame.setBackground(Color.lightGray);
 
     }
     @Override
