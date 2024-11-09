@@ -48,19 +48,29 @@ public class Window extends JFrame implements ActionListener {
         frame = new JFrame("Calculator");
         textField = new JTextField(16);
         textField.setEditable(false);
-        JPanel p = new JPanel();
         Window c = new Window();
 
-        p.add(textField);
-        for (int i = 0; i <= 9; i++){
-            JButton buttonsNum = new JButton(String.valueOf(i));
-            buttonsNum.addActionListener(c);
-            p.add(buttonsNum);
+        JPanel p = new JPanel();
+        p.setLayout(new BorderLayout());
+        p.add(textField, BorderLayout.CENTER);
+        frame.add(p, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 4, 5, 5)); // Layout for numeric and operator buttons
+        JPanel extraPanel = new JPanel(new GridLayout(4, 2, 5, 5));  // Layout for additional functions
+        JPanel controlPanel = new JPanel(new GridLayout(1, 3, 5, 5));
+
+        JButton[] numButtons = new JButton[10];
+        for (int i = 0; i <= 9; i++) {
+            numButtons[i] = new JButton(String.valueOf(i));
+            numButtons[i].addActionListener(c);
         }
-        for (String o : operations.keySet()){
-            JButton buttonsOp = new JButton(o);
-            buttonsOp.addActionListener(c);
-            p.add(buttonsOp);
+
+        JButton[] opButtons = new JButton[operations.size()];
+        int index = 0;
+        for (String o : operations.keySet()) {
+            opButtons[index] = new JButton(o);
+            opButtons[index].addActionListener(c);
+            index++;
         }
 
         JButton e = new JButton("e");
@@ -69,22 +79,57 @@ public class Window extends JFrame implements ActionListener {
         JButton beq = new JButton("C");
         JButton be = new JButton(".");
         JButton exit = new JButton("Exit");
+
         e.addActionListener(c);
         pi.addActionListener(c);
         beq1.addActionListener(c);
         beq.addActionListener(c);
         be.addActionListener(c);
         exit.addActionListener(c);
-        p.add(e);
-        p.add(pi);
-        p.add(beq1);
-        p.add(beq);
-        p.add(be);
-        p.add(exit);
-        p.setBackground(Color.DARK_GRAY);
-        frame.add(p);
-        frame.setSize(200, 320);
+
+        buttonPanel.add(numButtons[7]);
+        buttonPanel.add(numButtons[8]);
+        buttonPanel.add(numButtons[9]);
+        buttonPanel.add(opButtons[6]); //div
+
+        buttonPanel.add(numButtons[4]);
+        buttonPanel.add(numButtons[5]);
+        buttonPanel.add(numButtons[6]);
+        buttonPanel.add(opButtons[10]); //multiplication
+
+        buttonPanel.add(numButtons[1]);
+        buttonPanel.add(numButtons[2]);
+        buttonPanel.add(numButtons[3]);
+        buttonPanel.add(opButtons[7]); //plus
+
+        buttonPanel.add(be); //komma
+        buttonPanel.add(numButtons[0]);
+        buttonPanel.add(opButtons[8]); //minus
+        buttonPanel.add(beq1); //lika med
+        
+
+        extraPanel.add(pi);
+        extraPanel.add(e); // Division button
+        extraPanel.add(opButtons[4]);
+        extraPanel.add(opButtons[5]);
+        extraPanel.add(opButtons[0]);
+        extraPanel.add(opButtons[9]);
+        extraPanel.add(opButtons[1]);
+        extraPanel.add(opButtons[3]);
+        extraPanel.add(opButtons[2]);
+
+        
+
+        controlPanel.add(beq); // Clear button
+        controlPanel.add(exit);
+
+
+        frame.add(buttonPanel, BorderLayout.CENTER);
+        frame.add(extraPanel, BorderLayout.EAST);
+        frame.add(controlPanel, BorderLayout.SOUTH);
+        frame.setSize(500, 400); // Adjust size as needed
         frame.setVisible(true);
+        p.setBackground(Color.DARK_GRAY);
 
     }
     @Override
