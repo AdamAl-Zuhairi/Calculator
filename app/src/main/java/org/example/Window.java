@@ -23,6 +23,9 @@ public class Window extends JFrame implements ActionListener {
         operations.put("log", new Log());
         operations.put("ln", new Ln());
         operations.put("sqrt", new Sqrt());
+        operations.put("cos", new Cos());
+        operations.put("sin", new Sin());
+        operations.put("tan", new Tan());
     }
     
     public double calculate (double operand1, String operator, double operand2){
@@ -61,23 +64,26 @@ public class Window extends JFrame implements ActionListener {
         }
 
         JButton e = new JButton("e");
+        JButton pi = new JButton("PI");
         JButton beq1 = new JButton("=");
         JButton beq = new JButton("C");
         JButton be = new JButton(".");
         JButton exit = new JButton("Exit");
         e.addActionListener(c);
+        pi.addActionListener(c);
         beq1.addActionListener(c);
         beq.addActionListener(c);
         be.addActionListener(c);
         exit.addActionListener(c);
         p.add(e);
+        p.add(pi);
         p.add(beq1);
         p.add(beq);
         p.add(be);
         p.add(exit);
         p.setBackground(Color.DARK_GRAY);
         frame.add(p);
-        frame.setSize(200, 280);
+        frame.setSize(200, 320);
         frame.setVisible(true);
 
     }
@@ -103,6 +109,15 @@ public class Window extends JFrame implements ActionListener {
             }
             else{
                 s2 = Double.toString(Math.E);
+            }
+            textField.setText(s0 + s1 + s2);
+        }
+        else if (s.equals("PI")) {
+            if(s0.equals("")){
+                s0 = Double.toString(Math.PI);
+            }
+            else{
+                s2 = Double.toString(Math.PI);
             }
             textField.setText(s0 + s1 + s2);
         }
