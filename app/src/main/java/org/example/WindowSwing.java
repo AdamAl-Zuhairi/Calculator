@@ -37,7 +37,7 @@ public class WindowSwing implements ActionListener {
         for (int i = 0; i <= 9; i++) {
             numButtons[i] = new JButton(String.valueOf(i));
             numButtons[i].addActionListener(this);
-            numButtons[i].setBackground(java.awt.Color.magenta);
+            numButtons[i].setBackground(java.awt.Color.decode("#0077b6"));
         }
 
         JButton[] opButtons = new JButton[calc.operations.size()];
@@ -45,7 +45,7 @@ public class WindowSwing implements ActionListener {
         for (String o : calc.operations.keySet()) {
             opButtons[index] = new JButton(o);
             opButtons[index].addActionListener(this);
-            opButtons[index].setBackground(java.awt.Color.pink);
+            opButtons[index].setBackground(java.awt.Color.decode("#00b4d8"));
             index++;
         }
 
@@ -63,10 +63,10 @@ public class WindowSwing implements ActionListener {
         be.addActionListener(this);
         exit.addActionListener(this);
 
-        be.setBackground(java.awt.Color.pink);
-        pi.setBackground(java.awt.Color.pink);
-        e.setBackground(java.awt.Color.pink);
-        beq1.setBackground(java.awt.Color.green);
+        be.setBackground(java.awt.Color.decode("#00b4d8"));
+        pi.setBackground(java.awt.Color.decode("#00b4d8"));
+        e.setBackground(java.awt.Color.decode("#00b4d8"));
+        beq1.setBackground(java.awt.Color.decode("#90e0ef"));
 
         buttonPanel.add(numButtons[7]);
         buttonPanel.add(numButtons[8]);
