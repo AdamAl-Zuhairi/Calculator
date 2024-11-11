@@ -1,13 +1,15 @@
 package org.example;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.event.ActionEvent;
 
 public class WindowSwing implements ActionListener {
     private Window calc;
@@ -37,7 +39,8 @@ public class WindowSwing implements ActionListener {
         for (int i = 0; i <= 9; i++) {
             numButtons[i] = new JButton(String.valueOf(i));
             numButtons[i].addActionListener(this);
-            numButtons[i].setBackground(java.awt.Color.decode("#0077b6"));
+            numButtons[i].setBackground(java.awt.Color.decode("#023e8a"));
+            numButtons[i].setForeground(Color.white);
         }
 
         JButton[] opButtons = new JButton[calc.operations.size()];
@@ -45,7 +48,8 @@ public class WindowSwing implements ActionListener {
         for (String o : calc.operations.keySet()) {
             opButtons[index] = new JButton(o);
             opButtons[index].addActionListener(this);
-            opButtons[index].setBackground(java.awt.Color.decode("#00b4d8"));
+            opButtons[index].setBackground(java.awt.Color.decode("#0077b6"));
+            opButtons[index].setForeground(Color.white);
             index++;
         }
 
@@ -63,10 +67,14 @@ public class WindowSwing implements ActionListener {
         be.addActionListener(this);
         exit.addActionListener(this);
 
-        be.setBackground(java.awt.Color.decode("#00b4d8"));
-        pi.setBackground(java.awt.Color.decode("#00b4d8"));
-        e.setBackground(java.awt.Color.decode("#00b4d8"));
-        beq1.setBackground(java.awt.Color.decode("#90e0ef"));
+        be.setBackground(java.awt.Color.decode("#0077b6"));
+        pi.setBackground(java.awt.Color.decode("#0077b6"));
+        e.setBackground(java.awt.Color.decode("#0077b6"));
+        beq1.setBackground(java.awt.Color.decode("#0096c7"));
+        be.setForeground(Color.white);
+        beq1.setForeground(Color.white);
+        e.setForeground(Color.white);
+        pi.setForeground(Color.white);
 
         buttonPanel.add(numButtons[7]);
         buttonPanel.add(numButtons[8]);
