@@ -1,8 +1,10 @@
 package org.example;
 
 //TODO: Fixa färger och mer på design, ksk ta bort det tomma hörnet
-//TODO: Fixa felmeddelanden, gör en egen klass bara för felmeddelanden (som XL projektet)
-//TODO: Börja nytt projekt lol, den här var inte så svår
+//TODO: Factory istället (Kan vara onödigt, ksk bara gör om jag vill repetera)
+//TODO: Kanske ändra till JavaFX istället för swing (gör så att man kan välja i början med knappar ksk?)
+//TODO: Dela upp den här filen till flera klasser istället för en (SRP)
+//TODO: Börja nytt projekt lol (FlappyBird)
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -35,7 +37,7 @@ public class Window extends JFrame implements ActionListener {
     public double calculate (double operand1, String operator, double operand2){
         Op currentOp = operations.get(operator);
         if(currentOp == null){
-            throw new IllegalArgumentException("Invalid Operator");
+            throw Exceptions.invalidOperator();
         }
         if (currentOp instanceof SingleOperand) {
             return ((SingleOperand)currentOp).execute(operand1);
@@ -44,11 +46,11 @@ public class Window extends JFrame implements ActionListener {
             return ((MultipleOperand)currentOp).execute(operand1, operand2);
         }
         else{
-            throw new IllegalArgumentException("Invalid Operand");
+            throw Exceptions.invalidOperator();
         }
     }
 
-    public void CreateCalculator() {
+    public void CreateCalculatorSwing() {
         frame = new JFrame("Calculator");
         textField = new JTextField(16);
         textField.setEditable(false);
@@ -144,6 +146,7 @@ public class Window extends JFrame implements ActionListener {
         frame.setBackground(Color.lightGray);
 
     }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -211,7 +214,7 @@ public class Window extends JFrame implements ActionListener {
                     res = ((MultipleOperand)current).execute(op1, op2);
                 }
                 else{
-                    throw new IllegalArgumentException("Operation not supported");
+                    throw Exceptions.invalidOperation();
                 }
 
                 textField.setText(Double.toString(res));
