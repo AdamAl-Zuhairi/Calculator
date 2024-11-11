@@ -1,55 +1,28 @@
 package org.example;
 
-//TODO: Fixa färger och mer på design, ksk ta bort det tomma hörnet
-//TODO: Factory istället (Kan vara onödigt, ksk bara gör om jag vill repetera)
-//TODO: Kanske ändra till JavaFX istället för swing (gör så att man kan välja i början med knappar ksk?)
-//TODO: Dela upp den här filen till flera klasser istället för en (SRP)
-//TODO: Börja nytt projekt lol (FlappyBird)
+import java.awt.*;
+import java.awt.event.ActionListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
 
-public class Window {
-    public Map<String, Op> operations;
-    String s0,s1,s2;
+public class WindowSwing implements ActionListener {
+    private Window calc;
+    private JTextField textField;
+    private String s0 = "", s1 = "", s2 = "";
 
-    Window() {
-        s0 = s1 = s2 = "";
-        operations = new HashMap<String, Op>();
-        operations.put("+", new Add());
-        operations.put("-", new Sub());
-        operations.put("*", new Mul());
-        operations.put("/", new Div());
-        operations.put("^", new Pow());
-        operations.put("log", new Log());
-        operations.put("ln", new Ln());
-        operations.put("sqrt", new Sqrt());
-        operations.put("cos", new Cos());
-        operations.put("sin", new Sin());
-        operations.put("tan", new Tan());
-    }
-    
-    public double calculate (double operand1, String operator, double operand2){
-        Op currentOp = operations.get(operator);
-        if(currentOp == null){
-            throw Exceptions.invalidOperator();
-        }
-        if (currentOp instanceof SingleOperand) {
-            return ((SingleOperand)currentOp).execute(operand1);
-        }
-        if(currentOp instanceof MultipleOperand) {
-            return ((MultipleOperand)currentOp).execute(operand1, operand2);
-        }
-        else{
-            throw Exceptions.invalidOperator();
-        }
+    public WindowSwing(){
+        this.calc = new Window();
     }
 
-    /*public void CreateCalculatorSwing() {
-        frame = new JFrame("Calculator");
+    public void CreateCalculatorSwing(){
+        JFrame frame = new JFrame("Calculator");
         textField = new JTextField(16);
         textField.setEditable(false);
-        Window c = new Window();
+        WindowSwing c = new WindowSwing();
 
         JPanel p = new JPanel();
         p.setLayout(new BorderLayout());
@@ -63,16 +36,16 @@ public class Window {
         JButton[] numButtons = new JButton[10];
         for (int i = 0; i <= 9; i++) {
             numButtons[i] = new JButton(String.valueOf(i));
-            numButtons[i].addActionListener(c);
-            numButtons[i].setBackground(Color.magenta);
+            numButtons[i].addActionListener(this);
+            numButtons[i].setBackground(java.awt.Color.magenta);
         }
 
-        JButton[] opButtons = new JButton[operations.size()];
+        JButton[] opButtons = new JButton[calc.operations.size()];
         int index = 0;
-        for (String o : operations.keySet()) {
+        for (String o : calc.operations.keySet()) {
             opButtons[index] = new JButton(o);
-            opButtons[index].addActionListener(c);
-            opButtons[index].setBackground(Color.PINK);
+            opButtons[index].addActionListener(this);
+            opButtons[index].setBackground(java.awt.Color.pink);
             index++;
         }
 
@@ -83,17 +56,17 @@ public class Window {
         JButton be = new JButton(".");
         JButton exit = new JButton("Exit");
 
-        e.addActionListener(c);
-        pi.addActionListener(c);
-        beq1.addActionListener(c);
-        beq.addActionListener(c);
-        be.addActionListener(c);
-        exit.addActionListener(c);
+        e.addActionListener(this);
+        pi.addActionListener(this);
+        beq1.addActionListener(this);
+        beq.addActionListener(this);
+        be.addActionListener(this);
+        exit.addActionListener(this);
 
-        be.setBackground(Color.pink);
-        pi.setBackground(Color.pink);
-        e.setBackground(Color.pink);
-        beq1.setBackground(Color.green);
+        be.setBackground(java.awt.Color.pink);
+        pi.setBackground(java.awt.Color.pink);
+        e.setBackground(java.awt.Color.pink);
+        beq1.setBackground(java.awt.Color.green);
 
         buttonPanel.add(numButtons[7]);
         buttonPanel.add(numButtons[8]);
@@ -138,15 +111,10 @@ public class Window {
         frame.setSize(500, 400); // Adjust size as needed
         frame.setResizable(false);
         frame.setVisible(true);
-        frame.setBackground(Color.lightGray);
+        frame.setBackground(java.awt.Color.lightGray);
 
-    }
-
-    public void CreateCalculatorJavaFX(){
-        JOptionPane.showMessageDialog(null, "NOT IMPLEMENTED YET");
     }
     
-    @Override
     public void actionPerformed(ActionEvent e) {
         
         String s = e.getActionCommand();
@@ -180,10 +148,10 @@ public class Window {
             }
             textField.setText(s0 + s1 + s2);
         }
-        else if (operations.containsKey(s)) {
+        else if (calc.operations.containsKey(s)) {
             s1 = s;
             textField.setText(s0 + s1);
-            Op currentOpe = operations.get(s);
+            Op currentOpe = calc.operations.get(s);
 
             //funkar nu men man måste skriva in siffra sen operation, finslipa sen
             //gör mer på design så man lär sig också
@@ -205,7 +173,7 @@ public class Window {
                 double op1 = Double.parseDouble(s0);
                 Double op2 = s2.isEmpty() ? null : Double.parseDouble(s2);
                 double res;
-                Op current = operations.get(s1);
+                Op current = calc.operations.get(s1);
                 if(current instanceof SingleOperand){
                     res = ((SingleOperand)current).execute(op1);
                 }
@@ -221,5 +189,5 @@ public class Window {
                 s1 = s2 = "";
             }
         }
-    }*/
+    }
 }
